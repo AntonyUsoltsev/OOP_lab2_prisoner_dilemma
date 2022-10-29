@@ -31,45 +31,16 @@ int main() {
         str_list.push_back(str4_cr->create());
         hist.incr_history(sim.rounds);
         for (int round = 0; round < sim.rounds; round++) {
-            std::cout<<round+1<<" round ";
-            for (int i:sim.str_nums) {
-                char step = str_list[i-1]->decision(round, hist);
+            std::cout << round + 1 << " round ";
+            for (int i: sim.str_nums) {
+                char step = str_list[i - 1]->decision(round, hist);
                 hist.set_value(step, round);
-                std::cout<<step<< " ";
+                std::cout << step << " ";
             }
-            std::cout<<"\n";
+            std::cout << "\n";
         }
-        std::vector<int> res = {0, 0, 0};
-        for (int i = 0; i < hist.history.size(); i++) {
-            for (int j = 0; j < MAX_VAR; j++) {
-                if (matrix.act_matrix[j] == hist.history[i]) {
-                    res[0] += matrix.score_matrix[j][0];
-                    res[1] += matrix.score_matrix[j][1];
-                    res[2] += matrix.score_matrix[j][2];
-                    break;
-                }
-            }
-        }
-
-        for (int i = 0; i < res.size(); i++) {
-            std::cout << res[i] << " ";
-        }
-        int ind = distance(res.begin(),std::max_element(res.begin(),res.end()));
-        std::cout << "\nStrategy "<<ind+1<<" win with score "<< res[ind];
-//        strategies *sec = foo(ptr2);
-//        for (int i = 1; i < 5; i++) {
-//            main_str.do_decision(i);
-//            str1.do_decision(i);
-//            str2.do_decision(i);
-//            str3.do_decision(i);
-//        }
-
-//        for (int i = 1; i < 5; ++i) {
-//            for (int j = 0; j < 3; ++j) {
-//                std::cout << main_str.history[i][j] << " ";
-//            }
-//            std::cout << std::endl;
-//        }
+        Result result(matrix,hist);
+        result.print_res();
         for (auto it = str_list.begin(); it != str_list.end(); it++)
             delete (*it);
     }

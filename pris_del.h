@@ -13,6 +13,7 @@ class matrix_constructor {
 public:
     std::vector<std::vector<char>> act_matrix;
     std::vector<std::vector<int>> score_matrix;
+
     matrix_constructor();
 };
 
@@ -21,7 +22,8 @@ public:
     std::vector<int> str_nums;
     int rounds;
     std::string reg;
-    simulator() ;
+
+    simulator();
 };
 
 class history {
@@ -121,19 +123,19 @@ public:
 class Result {
 public:
     std::vector<int> res = {0, 0, 0};
-    Result(matrix_constructor matrix, const history& hist) {
-        for (auto& h : hist.history) {
+
+    Result(matrix_constructor matrix, const history &hist) {
+        for (auto &h: hist.history) {
             for (int j = 0; j < MAX_VAR; j++) {
                 if (matrix.act_matrix[j] == h) {
-                    res[0] += matrix.score_matrix[j][0];
-                    res[1] += matrix.score_matrix[j][1];
-                    res[2] += matrix.score_matrix[j][2];
+                    for (int k = 0; k < STR_CNT; k++)
+                        res[k] += matrix.score_matrix[j][k];
                     break;
                 }
             }
         }
     }
-    void print_res(){
+    void print_res() {
         for (int i = 0; i < res.size(); i++) {
             std::cout << res[i] << " ";
         }
@@ -141,14 +143,7 @@ public:
         std::cout << "\nStrategy " << ind + 1 << " win with score " << res[ind];
     }
 };
+
 #endif //LAB2_PRISONER_DILEMMA_PRIS_DEL_H
-
-
-
-
-
-
-
-
 
 
