@@ -19,16 +19,6 @@ public:
     Matrix();
 };
 
-class Simulator {
-public:
-    std::vector<int> str_nums;
-    int rounds;
-    std::string mode;
-
-    Simulator();
-
-    void input_str_nums();
-};
 
 
 class History {
@@ -136,18 +126,21 @@ public:
     std::vector<int> res = {0, 0, 0};
 
     Result(Matrix matrix, const History &hist);
-    void print_res();
+    void print_cur_res();
+    void print_tot_res();
 };
 
-class Game : public Simulator {
+class Simulator {
 public:
+    std::vector<int> str_nums;
+    int rounds;
+    std::string mode;
     std::vector<Strategies *> str_list;
-
-    Game();
+    Simulator();
+    void create_str();
     void main_game(Matrix matrix,History hist) ;
+    void input_str_nums();
+    void str_moves(int round, History hist);
 };
-
 
 #endif //LAB2_PRISONER_DILEMMA_PRIS_DEL_H
-
-

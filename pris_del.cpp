@@ -14,6 +14,8 @@ Matrix::Matrix() {
         for (int j = 0; j < 3; ++j) {
             char a;
             fin >> a;
+            if (a!= 'c' && a!= 'd')
+                throw(std::invalid_argument("Incorrect matrix"));
             act_matrix[i].push_back(a);
         }
         for (int j = 3; j < 6; ++j) {
@@ -35,7 +37,7 @@ void Simulator::input_str_nums() {
 }
 
 Simulator::Simulator() {
-    std::cout << "Insert mode of game\n";
+    std::cout << "Insert mode of game[detailed|fast|tournament]\n";
     std::cin >> mode;
     if (mode == "detailed") {
         input_str_nums();
@@ -75,15 +77,23 @@ Result::Result(Matrix matrix, const History &hist) {
     }
 }
 
-void Result::print_res() {
+void Result::print_cur_res() {
     for (int r: res) {
         std::cout << r << " ";
     }
-    int ind = distance(res.begin(), std::max_element(res.begin(), res.end()));
-    std::cout << "\nStrategy " << ind + 1 << " win with score " << res[ind];
+    std::cout << '\n';
+    // int ind = distance(res.begin(), std::max_element(res.begin(), res.end()));
+    //std::cout << "\nStrategy " << ind + 1 << " win with score " << res[ind];
 }
 
-Game::Game() {
+void Result::print_tot_res() {
+    std::cout << "Total score: ";
+    print_cur_res();
+    int ind = distance(res.begin(), std::max_element(res.begin(), res.end()));
+    std::cout << "Strategy " << ind + 1 << " win with score " << res[ind];
+}
+
+void Simulator::create_str() {
     auto *str1_cr = new str_1_factory;
     auto *str2_cr = new str_2_factory;
     auto *str3_cr = new str_3_factory;
@@ -94,37 +104,45 @@ Game::Game() {
     str_list.push_back(str4_cr->create());
 }
 
-void Game::main_game(Matrix matrix, History hist) {
+void Simulator::str_moves(int round,History hist) {
+    for (int i: str_nums) {
+        char step = str_list[i - 1]->decision(round, hist);
+        hist.set_value(step, round);
+        std::cout << step << " ";
+    }
+}
+
+
+void Simulator::main_game(Matrix matrix, History hist) {
+    create_str();
     if (mode == "detailed") {
         std::cout << "Press any button (to stop insert quit)\n";
         std::string insert;
         std::cin >> insert;
-        int round = 1;
+        int round = 0;
         while (insert != "quit") {
             hist.incr_history();
-            std::cout << round << " round ";
-            for (int i: str_nums) {
-                char step = str_list[i - 1]->decision(round, hist);
-                hist.set_value(step, round);
-                std::cout << step << " ";
-                std::cout << "\n";
-            }
+            std::cout << round + 1 << " round: ";
+            str_moves(round,hist);
+            std::cout << " Current score: ";
+            Result result(matrix, hist);
+            result.print_cur_res();
             round++;
             std::cin >> insert;
         }
+        Result result(matrix, hist);
+        result.print_tot_res();
+
     } else if (mode == "fast") {
         hist.resize_history(rounds);
         for (int round = 0; round < rounds; round++) {
             std::cout << round + 1 << " round ";
-            for (int i: str_nums) {
-                char step = str_list[i - 1]->decision(round, hist);
-                hist.set_value(step, round);
-                std::cout << step << " ";
-            }
+            str_moves(round,hist);
             std::cout << "\n";
         }
+        Result result(matrix, hist);
+        result.print_tot_res();
+    } else if (mode == "tournament") {
 
     }
-    Result result(matrix,hist);
-    result.print_res();
 }
