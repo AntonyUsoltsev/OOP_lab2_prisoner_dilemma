@@ -104,7 +104,7 @@ void Simulator::create_str() {
     str_list.push_back(str4_cr->create());
 }
 
-void Simulator::str_moves(int round,History hist) {
+void Simulator::str_moves(int round,History hist) { ////dont work??
     for (int i: str_nums) {
         char step = str_list[i - 1]->decision(round, hist);
         hist.set_value(step, round);
@@ -123,7 +123,11 @@ void Simulator::main_game(Matrix matrix, History hist) {
         while (insert != "quit") {
             hist.incr_history();
             std::cout << round + 1 << " round: ";
-            str_moves(round,hist);
+            for (int i: str_nums) {
+                char step = str_list[i - 1]->decision(round, hist);
+                hist.set_value(step, round);
+                std::cout << step << " ";
+            }
             std::cout << " Current score: ";
             Result result(matrix, hist);
             result.print_cur_res();
@@ -137,7 +141,11 @@ void Simulator::main_game(Matrix matrix, History hist) {
         hist.resize_history(rounds);
         for (int round = 0; round < rounds; round++) {
             std::cout << round + 1 << " round ";
-            str_moves(round,hist);
+            for (int i: str_nums) {
+                char step = str_list[i - 1]->decision(round, hist);
+                hist.set_value(step, round);
+                std::cout << step << " ";
+            }
             std::cout << "\n";
         }
         Result result(matrix, hist);
