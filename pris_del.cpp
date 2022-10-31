@@ -27,7 +27,7 @@ Matrix::Matrix() {
 }
 
 void Simulator::input_str_nums() {
-    std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ")\n";
+    std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ")\n"; //TODO: more 3 arg
     str_nums.resize(STR_PLAY);
     //  std::vector<int> buff;
     str_count = STR_PLAY;
@@ -117,10 +117,23 @@ void Result::create_res( Matrix matrix, const History &hist) {
     }
 }
 
-void Result::empty_res() {
+void Result::clear_res() {
     for (int i = 0; i < STR_PLAY; i++) {
         res[i] = 0;
     }
+}
+
+void Result::print_tot_tour_res(int frst,int scnd,int thrd) {
+    std::cout << "Total score: ";
+    print_cur_res();
+    int ind = distance(res.begin(), std::max_element(res.begin(), res.end()));
+    int winner;
+    switch (ind) {
+        case 0 : winner = frst; break;
+        case 1 : winner = scnd; break;
+        case 2 : winner = thrd; break;
+    }
+    std::cout << "Strategy " << winner << " win with score " << res[ind] << '\n';
 }
 
 void Simulator::create_str() {
@@ -145,9 +158,9 @@ void Simulator::str_moves(int round, History &hist) {
 }
 
 
-void Simulator::main_game( Matrix matrix, History hist) {
+void Simulator::main_game( Matrix matrix, History hist,Result result) {
     create_str();
-    Result result;
+
     if (mode == "detailed") {
         std::cout << "Press any button (to stop insert quit)\n";
         std::string insert;
@@ -155,12 +168,13 @@ void Simulator::main_game( Matrix matrix, History hist) {
         int round = 0;
         while (insert != "quit") {
             hist.incr_history();
+
             std::cout << round + 1 << " round: ";
             str_moves(round, hist);
             std::cout << " Current score: ";
+            result.clear_res();
             result.create_res(matrix, hist);
             result.print_cur_res();   //done too many times
-            result.empty_res();
             round++;
             std::cin >> insert;
         }
@@ -176,12 +190,14 @@ void Simulator::main_game( Matrix matrix, History hist) {
         }
         result.create_res(matrix, hist);
         result.print_tot_res();
+
     } else if (mode == "tournament") {
         for (int i = 0; i < str_count - 2; i++) {
             for (int j = i + 1; j < str_count - 1; j++) {
                 for (int k = j + 1; k < str_count; k++) {
+                    hist.clear_history();
                     hist.resize_history(rounds);
-                    std::cout << "Strategies: " << str_nums[i]<< " " << str_nums[j] << " " << str_nums[k] << '\n';
+                    std::cout << "\nStrategies: " << str_nums[i] << " " << str_nums[j] << " " << str_nums[k] << '\n';
                     for (int round = 0; round < rounds; round++) {
                         char step = str_list[str_nums[i] - 1]->decision(round, hist);
                         hist.set_value(step, round);
@@ -194,8 +210,10 @@ void Simulator::main_game( Matrix matrix, History hist) {
                         std::cout << step << "\n";
                     }
                     result.create_res(matrix, hist);
-                    result.print_tot_res();
-                    result.empty_res();
+                    //result.print_tot_res();
+                    result.print_tot_tour_res(str_nums[i],str_nums[j],str_nums[k]);
+                    result.clear_res();
+                    // TODO:absolut winner
                 }
             }
         }

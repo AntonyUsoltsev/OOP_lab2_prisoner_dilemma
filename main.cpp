@@ -31,7 +31,8 @@ int main() {
 //        str_list.push_back(str3_cr->create());
 //        str_list.push_back(str4_cr->create());
         History hist;
-        sim.main_game(matrix, hist);
+        Result result;
+        sim.main_game(matrix, hist,result);
 //        for (int round = 0; round < sim.rounds; round++) {
 //            std::cout << round + 1 << " round ";
 //            for (int i: sim.str_nums) {
