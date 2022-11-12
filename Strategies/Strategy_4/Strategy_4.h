@@ -7,8 +7,9 @@
 
 #include "../Class_strategy/Class_str.h"
 
-class strategy_4 : public Strategies {
+class Strategy_4 : public Strategies {
 public:
+    using Strategies::Strategies;
     char decision(int round, History &hist) override {
         //std::cout << "str3\n";
         if (round > 0 && hist.history[round - 1][0] == 'c' && hist.history[round - 1][1] == 'd') {

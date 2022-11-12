@@ -3,8 +3,9 @@
 
 #include "../Class_strategy/Class_str.h"
 
-class strategy_2 : public Strategies {
+class Strategy_2 : public Strategies {
 public:
+    using Strategies::Strategies;
     char decision(int round, History &hist) override {
         //std::cout << "str2";
         return 'd';

@@ -3,7 +3,7 @@
 
 enum {
     MAX_VAR = 8,
-    STR_CNT = 5,
+    STR_CNT = 6,
     STR_PLAY = 3
 };
 //#define MAX_VAR 8

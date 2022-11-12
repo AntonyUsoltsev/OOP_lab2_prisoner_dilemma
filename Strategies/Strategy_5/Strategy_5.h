@@ -7,8 +7,9 @@
 
 #include "../Class_strategy/Class_str.h"
 
-class strategy_5 : public Strategies {
+class Strategy_5 : public Strategies {
 public:
+    using Strategies::Strategies;
     char decision(int round, History &hist) override {
         if (round % 2 == 1)
             return 'd';

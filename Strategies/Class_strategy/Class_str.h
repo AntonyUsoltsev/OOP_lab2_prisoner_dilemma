@@ -5,6 +5,8 @@
 
 class Strategies {
 public:
+    Strategies()=default;
+
     virtual ~Strategies() = default;
 
     virtual char decision(int round, History &hist) = 0;
