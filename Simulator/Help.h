@@ -10,8 +10,8 @@
 
 class Help{
 public:
-    void call_mode_help();
-    void call_str_help();
+    static void call_mode_help();
+    static void call_str_help();
 };
 
 #endif //LAB2_PRISONER_DILEMMA_HELP_H

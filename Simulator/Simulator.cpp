@@ -1,13 +1,13 @@
 #include "Simulator.h"
 
-void Simulator::input_str_nums(Help help) {
+void Simulator::input_str_nums() {
     std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ") or [help] to call help\n";
     str_count = STR_PLAY;
     str_nums.resize(str_count);
     std::string data;
     std::cin >> data;
     if (data == "help") {
-        help.call_str_help();
+        Help::call_str_help();
         std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ")\n";
         std::cin >> str_nums[0] >> str_nums[1] >> str_nums[2];
     } else {
@@ -20,22 +20,22 @@ void Simulator::input_str_nums(Help help) {
             throw (std::invalid_argument("Strategy doesn't exist"));
 }
 
-Simulator::Simulator(const Matrix &matrix, History hist, Result result) {
-    std::cout << "Insert mode of game[detailed|fast|tournament] or [help] to call help\n";
+Simulator::Simulator(const Matrix &matrix, const History& hist, const Result& result) {
+    std::cout << "Insert mode of game [detailed|fast|tournament] or [help] to call help\n";
     std::cin >> mode;
-    Help help;
+    //Help help;
     if (mode == "help") {
-        help.call_mode_help();
+        Help::call_mode_help();
         std::cout << "Insert mode of game[detailed|fast|tournament]\n";
         std::cin >> mode;
     }
 
     if (mode == "detailed") {
-        this->input_str_nums(help);
+        this->input_str_nums();
         this->detailed(matrix, hist, result);
 
     } else if (mode == "fast") {
-        this->input_str_nums(help);
+        this->input_str_nums();
 
         std::cout << "Insert count of rounds\n";
         std::cin >> rounds;

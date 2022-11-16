@@ -28,7 +28,7 @@ public:
     std::string mode;
     std::vector<Strategies *> str_list;
 
-    Simulator(const Matrix &matrix, History hist, Result result);
+    Simulator(const Matrix &matrix, const History& hist, const Result& result);
 
     ~Simulator() = default;
 
@@ -40,7 +40,7 @@ public:
 
     void tournament(const Matrix &matrix, History hist, Result result);
 
-    void input_str_nums(Help help);
+    void input_str_nums();
 
     void str_moves(int round, History &hist);
 
