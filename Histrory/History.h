@@ -8,7 +8,7 @@
 
 class History {
 public:
-    std::vector<std::vector<char>> history;
+    std::vector<std::vector<int>> history;
 
     ~History() = default;
 
@@ -17,11 +17,11 @@ public:
     }
 
     void incr_history() {
-        std::vector<char> tmp;
+        std::vector<int> tmp;
         history.push_back(tmp);
     }
 
-    void set_value(char val, int round) {
+    void set_value(int val, int round) {
         history[round].push_back(val);
     }
 

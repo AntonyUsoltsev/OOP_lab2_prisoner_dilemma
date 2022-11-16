@@ -13,8 +13,8 @@
 #include "../Strategies/Class_strategy/Class_str.h"
 #include "../Strategies/Strategy_1_alw_coop/Strategy_1.h"
 #include "../Strategies/Strategy_2_alw_def/Strategy_2.h"
-#include "../Strategies/Strategy_3/Strategy_3.h"
-#include "../Strategies/Strategy_4/Strategy_4.h"
+#include "../Strategies/Strategy_3_def_if_def/Strategy_3.h"
+#include "../Strategies/Strategy_4_conf_file/Strategy_4.h"
 #include "../Strategies/Strategy_5_alternation/Strategy_5.h"
 #include "../Strategies/Strategy_6_rand/Strategy_6.h"
 #include "../Factory/Factory.h"
@@ -40,13 +40,9 @@ public:
 
     void tournament(const Matrix &matrix, History hist, Result result);
 
-    //void main_game(const Matrix& matrix, History hist, Result result);
-
     void input_str_nums(Help help);
 
     void str_moves(int round, History &hist);
-
-//    void stoi(std::string data,std::vector<int> str_nums);
 
     void make_null();
 };

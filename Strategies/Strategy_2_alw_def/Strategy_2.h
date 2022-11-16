@@ -1,15 +1,17 @@
-#ifndef LAB2_PRISONER_DILEMMA_STRATEGY_3_H
+#ifndef LAB2_PRISONER_DILEMMA_STRATEGY_2_H
 #define LAB2_PRISONER_DILEMMA_STRATEGY_2_H
 
 #include "../Class_strategy/Class_str.h"
+
+//This strategy always choose to defect.
 
 class Strategy_2 : public Strategies {
 public:
     using Strategies::Strategies;
 
-    char decision(int round,int pos, History &hist) override {
-        //std::cout << "str2";
-        return 'd';
+    int decision(int round, int pos, History &hist) override {
+        return D;
     }
 };
-#endif //LAB2_PRISONER_DILEMMA_STRATEGY_3_H
+
+#endif //LAB2_PRISONER_DILEMMA_STRATEGY_2_H

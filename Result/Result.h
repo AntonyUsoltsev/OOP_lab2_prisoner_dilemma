@@ -26,8 +26,6 @@ public:
 
     void incr_res(int, History, Matrix matrix);
 
-    //void print_tot_tour_res(int frst, int scnd, int thrd);
-
     static void print_abs_win( std::vector<int>,const std::vector<int>& );
 };
 

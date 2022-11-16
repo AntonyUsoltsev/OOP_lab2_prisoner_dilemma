@@ -7,13 +7,16 @@
 
 #include "../Class_strategy/Class_str.h"
 
+//This strategy choose alternation variants .
+
 class Strategy_5 : public Strategies {
 public:
     using Strategies::Strategies;
-    char decision(int round, int pos,History &hist) override {
+
+    int decision(int round, int pos, History &hist) override {
         if (round % 2 == 1)
-            return 'd';
-        return 'c';
+            return D;
+        return C;
     }
 };
 

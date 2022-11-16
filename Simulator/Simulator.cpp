@@ -1,67 +1,23 @@
 #include "Simulator.h"
 
-//void Simulator::stoi(std::string data, std::vector<int> str_nums) {
-//    int res = 0;
-//    int count = 0;
-//    for (int i = 0; data[i] != '\0'; i++) {
-//        if (data[i] != ' ') {
-//            if (data[i] < '0' || data[i] > '9')
-//                throw (std::invalid_argument("Bad syntax"));
-//            res = res * 10 + data[i] - '0';
-//        } else {
-//            if (res < 1 || res > STR_CNT)
-//                throw (std::invalid_argument("Strategy doesn't exist"));
-//            str_nums.push_back(res);
-//            res = 0;
-//            count ++;
-//            if (count > 3){
-//                throw (std::invalid_argument("Too many strategies"));
-//            }
-//        }
-//    }
-//}
-
-//void Simulator::input_str_nums() {
-//    std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ")  or [help] to call help\n"; //TODO: more 3 arg
-//    str_nums.resize(STR_PLAY);
-//    str_count = STR_PLAY;
-////    for(int i = 0; i<STR_PLAY;i++){
-////        int a;
-////        std::cin>>a;
-////        buff.push_back(a);
-////    }
-//    std::cin >> str_nums[0] >> str_nums[1] >> str_nums[2];
-//    for (int c: str_nums) {
-//        if (c < 1 || c > STR_CNT)
-//            throw (std::invalid_argument("Strategy doesn't exist"));
-//    }
-//}
-//
 void Simulator::input_str_nums(Help help) {
     std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ") or [help] to call help\n";
     str_count = STR_PLAY;
     str_nums.resize(str_count);
     std::string data;
-    //int count = 0;
-    //bool help_flag = true;
     std::cin >> data;
     if (data == "help") {
         help.call_str_help();
         std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ")\n";
         std::cin >> str_nums[0] >> str_nums[1] >> str_nums[2];
-        //help_flag = false;
-        //std::cin >> data;
     } else {
         int a = std::stoi(data);
         str_nums[0] = a;
-        //count++;
         std::cin >> str_nums[1] >> str_nums[2];
-
     }
-    for (int c: str_nums) {
+    for (int c: str_nums)
         if (c < 1 || c > STR_CNT)
             throw (std::invalid_argument("Strategy doesn't exist"));
-    }
 }
 
 Simulator::Simulator(const Matrix &matrix, History hist, Result result) {
@@ -83,18 +39,16 @@ Simulator::Simulator(const Matrix &matrix, History hist, Result result) {
 
         std::cout << "Insert count of rounds\n";
         std::cin >> rounds;
-        if (rounds < 0) {
+        if (rounds < 0)
             throw (std::invalid_argument("Count of numbers is incorrect"));
-        }
 
         fast(matrix, hist, result);
 
     } else if (mode == "tournament") {
         std::cout << "Insert count of strategies\n";
         std::cin >> str_count;
-        if (str_count < 3) {
+        if (str_count < 3)
             throw (std::invalid_argument("Count of strategies is incorrect"));
-        }
         std::cout << "Insert numbers of strategies (from 1 to " << STR_CNT << ")\n";
         for (int i = 0; i < str_count; i++) {
             int num;
@@ -106,16 +60,13 @@ Simulator::Simulator(const Matrix &matrix, History hist, Result result) {
 
         std::cout << "Insert count of rounds\n";
         std::cin >> rounds;
-        if (rounds <= 0) {
+        if (rounds <= 0)
             throw (std::invalid_argument("Count of numbers is incorrect"));
-        }
 
         tournament(matrix, hist, result);
 
-
     } else
         throw (std::invalid_argument("Mode is incorrect"));
-
 }
 
 void Simulator::create_str() {
@@ -128,27 +79,15 @@ void Simulator::create_str() {
     str_fact.add<Strategy_5>(5);
     str_fact.add<Strategy_6>(6);
 
-    for (int i: str_nums) {
+    for (int i: str_nums)
         str_list.push_back(str_fact.get(i)());
-    }
-//    Strategies *str_1 = str_fact.get(1)();
-//    Strategies *str_2 = str_fact.get(2)();
-//    str_list.push_back(str_1);
-//    str_list.push_back(str_2);
-    //Strategies *cat = str_fact.get("^_^")(true, "begemoth");
-
-//    cout << dog1->voice()
-//         << dog2->voice()
-//         << cat->voice();
-
 }
-
 
 void Simulator::str_moves(int round, History &hist) {
     for (int i = 0; i < 3; i++) {
-        char step = str_list[i]->decision(round, i, hist);
+        int step = str_list[i]->decision(round, i, hist);
         hist.set_value(step, round);
-        std::cout << step << " ";
+        std::cout << static_cast<char>(step + 'c') << " ";
     }
 }
 
@@ -165,8 +104,6 @@ void Simulator::detailed(const Matrix &matrix, History hist, Result result) {
         str_moves(round, hist);
 
         result.incr_res(round, hist, matrix);
-//            result.clear_res();
-//            result.create_res(matrix, hist);
         std::cout << " Current score: ";
         result.print_cur_res(); //TODO curres
         round++;
@@ -200,16 +137,15 @@ void Simulator::tournament(const Matrix &matrix, History hist, Result result) {
                 hist.resize_history(rounds);
                 std::cout << "\nStrategies: " << str_nums[i] << " " << str_nums[j] << " " << str_nums[k] << '\n';
                 for (int round = 0; round < rounds; round++) {
-                    char step = str_list[i]->decision(round, 0, hist);
+                    int step = str_list[i]->decision(round, 0, hist);
                     hist.set_value(step, round);
-                    std::cout << step << " ";
+                    std::cout << static_cast<char>(step + 'c') << " ";
                     step = str_list[j]->decision(round, 1, hist);
                     hist.set_value(step, round);
-                    std::cout << step << " ";
+                    std::cout << static_cast<char>(step + 'c') << " ";
                     step = str_list[k]->decision(round, 2, hist);
                     hist.set_value(step, round);
-
-                    std::cout << step << "\n";
+                    std::cout << static_cast<char>(step + 'c') << "\n";
                 }
                 result.create_res(matrix, hist);
                 result.print_tot_res(str_nums[i], str_nums[j], str_nums[k]);
