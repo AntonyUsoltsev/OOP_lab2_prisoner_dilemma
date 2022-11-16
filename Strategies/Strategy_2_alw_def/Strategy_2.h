@@ -6,7 +6,8 @@
 class Strategy_2 : public Strategies {
 public:
     using Strategies::Strategies;
-    char decision(int round, History &hist) override {
+
+    char decision(int round,int pos, History &hist) override {
         //std::cout << "str2";
         return 'd';
     }

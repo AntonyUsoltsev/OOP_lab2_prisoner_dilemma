@@ -12,8 +12,10 @@
 class Strategy_6 : public Strategies {
 public:
     using Strategies::Strategies;
+
     std::vector<int> rand_vect={static_cast<int>((unsigned) time(nullptr))};
-    char decision(int round, History &hist) override {
+
+    char decision(int round, int pos, History &hist) override {
         srand(rand_vect[round]);
         int random = rand();
         rand_vect.push_back(random);

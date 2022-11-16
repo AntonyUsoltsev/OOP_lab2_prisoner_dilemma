@@ -22,6 +22,10 @@ int main() {
     }
 
     catch (const std::invalid_argument &err) {
-        std::cerr << err.what();
+        if (strcmp(err.what(),"stoi") == 0){
+            std::cerr << "Bad argument";
+        }
+        else
+            std::cerr << err.what();
     }
 }

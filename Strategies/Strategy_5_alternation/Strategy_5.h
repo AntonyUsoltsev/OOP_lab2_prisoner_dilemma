@@ -10,7 +10,7 @@
 class Strategy_5 : public Strategies {
 public:
     using Strategies::Strategies;
-    char decision(int round, History &hist) override {
+    char decision(int round, int pos,History &hist) override {
         if (round % 2 == 1)
             return 'd';
         return 'c';

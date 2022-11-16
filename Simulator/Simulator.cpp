@@ -1,15 +1,63 @@
 #include "Simulator.h"
 
-void Simulator::input_str_nums() {
-    std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ")  or [help] to call help\n"; //TODO: more 3 arg
-    str_nums.resize(STR_PLAY);
-    str_count = STR_PLAY;
-//    for(int i = 0; i<STR_PLAY;i++){
-//        int a;
-//        std::cin>>a;
-//        buff.push_back(a);
+//void Simulator::stoi(std::string data, std::vector<int> str_nums) {
+//    int res = 0;
+//    int count = 0;
+//    for (int i = 0; data[i] != '\0'; i++) {
+//        if (data[i] != ' ') {
+//            if (data[i] < '0' || data[i] > '9')
+//                throw (std::invalid_argument("Bad syntax"));
+//            res = res * 10 + data[i] - '0';
+//        } else {
+//            if (res < 1 || res > STR_CNT)
+//                throw (std::invalid_argument("Strategy doesn't exist"));
+//            str_nums.push_back(res);
+//            res = 0;
+//            count ++;
+//            if (count > 3){
+//                throw (std::invalid_argument("Too many strategies"));
+//            }
+//        }
 //    }
-    std::cin >> str_nums[0] >> str_nums[1] >> str_nums[2];
+//}
+
+//void Simulator::input_str_nums() {
+//    std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ")  or [help] to call help\n"; //TODO: more 3 arg
+//    str_nums.resize(STR_PLAY);
+//    str_count = STR_PLAY;
+////    for(int i = 0; i<STR_PLAY;i++){
+////        int a;
+////        std::cin>>a;
+////        buff.push_back(a);
+////    }
+//    std::cin >> str_nums[0] >> str_nums[1] >> str_nums[2];
+//    for (int c: str_nums) {
+//        if (c < 1 || c > STR_CNT)
+//            throw (std::invalid_argument("Strategy doesn't exist"));
+//    }
+//}
+//
+void Simulator::input_str_nums(Help help) {
+    std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ") or [help] to call help\n";
+    str_count = STR_PLAY;
+    str_nums.resize(str_count);
+    std::string data;
+    //int count = 0;
+    //bool help_flag = true;
+    std::cin >> data;
+    if (data == "help") {
+        help.call_str_help();
+        std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ")\n";
+        std::cin >> str_nums[0] >> str_nums[1] >> str_nums[2];
+        //help_flag = false;
+        //std::cin >> data;
+    } else {
+        int a = std::stoi(data);
+        str_nums[0] = a;
+        //count++;
+        std::cin >> str_nums[1] >> str_nums[2];
+
+    }
     for (int c: str_nums) {
         if (c < 1 || c > STR_CNT)
             throw (std::invalid_argument("Strategy doesn't exist"));
@@ -22,17 +70,16 @@ Simulator::Simulator(const Matrix &matrix, History hist, Result result) {
     Help help;
     if (mode == "help") {
         help.call_mode_help();
-
         std::cout << "Insert mode of game[detailed|fast|tournament]\n";
         std::cin >> mode;
     }
 
     if (mode == "detailed") {
-        input_str_nums();
-        detailed(matrix, hist, result);
+        this->input_str_nums(help);
+        this->detailed(matrix, hist, result);
 
     } else if (mode == "fast") {
-        input_str_nums();
+        this->input_str_nums(help);
 
         std::cout << "Insert count of rounds\n";
         std::cin >> rounds;
@@ -66,7 +113,7 @@ Simulator::Simulator(const Matrix &matrix, History hist, Result result) {
         tournament(matrix, hist, result);
 
 
-    }else
+    } else
         throw (std::invalid_argument("Mode is incorrect"));
 
 }
@@ -99,7 +146,7 @@ void Simulator::create_str() {
 
 void Simulator::str_moves(int round, History &hist) {
     for (int i = 0; i < 3; i++) {
-        char step = str_list[i]->decision(round, hist);
+        char step = str_list[i]->decision(round, i, hist);
         hist.set_value(step, round);
         std::cout << step << " ";
     }
@@ -153,13 +200,13 @@ void Simulator::tournament(const Matrix &matrix, History hist, Result result) {
                 hist.resize_history(rounds);
                 std::cout << "\nStrategies: " << str_nums[i] << " " << str_nums[j] << " " << str_nums[k] << '\n';
                 for (int round = 0; round < rounds; round++) {
-                    char step = str_list[i]->decision(round, hist);
+                    char step = str_list[i]->decision(round, 0, hist);
                     hist.set_value(step, round);
                     std::cout << step << " ";
-                    step = str_list[j]->decision(round, hist);
+                    step = str_list[j]->decision(round, 1, hist);
                     hist.set_value(step, round);
                     std::cout << step << " ";
-                    step = str_list[k]->decision(round, hist);
+                    step = str_list[k]->decision(round, 2, hist);
                     hist.set_value(step, round);
 
                     std::cout << step << "\n";

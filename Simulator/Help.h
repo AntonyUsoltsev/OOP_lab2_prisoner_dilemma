@@ -13,4 +13,5 @@ public:
     void call_mode_help();
     void call_str_help();
 };
+
 #endif //LAB2_PRISONER_DILEMMA_HELP_H

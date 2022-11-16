@@ -9,6 +9,7 @@ public:
 
     virtual ~Strategies() = default;
 
-    virtual char decision(int round, History &hist) = 0;
+    virtual char decision(int round, int pos, History &hist) = 0;
 };
+
 #endif //LAB2_PRISONER_DILEMMA_CLASS_STR_H

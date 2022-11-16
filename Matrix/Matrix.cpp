@@ -2,7 +2,7 @@
 
 Matrix::Matrix() {
     //FILE *fin = fopen("matrix.txt", "r");
-    std::ifstream fin("matrix.txt");
+    std::ifstream fin("../Matrix/matrix.txt");
     if (!fin.is_open()) {
         throw (std::invalid_argument("file didn't open"));
         //throw(const std::ios_base::failure);
