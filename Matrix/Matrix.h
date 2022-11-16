@@ -9,7 +9,7 @@
 
 class Matrix {
 public:
-    std::vector<std::vector<char>> act_matrix;
+   // std::vector<std::vector<char>> act_matrix;
     std::vector<std::vector<int>> score_matrix;
 
     Matrix();
