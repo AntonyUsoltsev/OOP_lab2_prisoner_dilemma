@@ -6,10 +6,12 @@
 #include <fstream>
 #include <algorithm>
 
-#include "../Result/Result.h"
-#include "../Matrix/Matrix.h"
-#include "../Histrory/History.h"
+#include "Help.h"
 #include "../Constants/Constants.h"
+#include "../Factory/Factory.h"
+#include "../Histrory/History.h"
+#include "../Matrix/Matrix.h"
+#include "../Result/Result.h"
 #include "../Strategies/Class_strategy/Class_str.h"
 #include "../Strategies/Strategy_1_alw_coop/Strategy_1.h"
 #include "../Strategies/Strategy_2_alw_def/Strategy_2.h"
@@ -17,8 +19,6 @@
 #include "../Strategies/Strategy_4_conf_file/Strategy_4.h"
 #include "../Strategies/Strategy_5_alternation/Strategy_5.h"
 #include "../Strategies/Strategy_6_rand/Strategy_6.h"
-#include "../Factory/Factory.h"
-#include "Help.h"
 
 class Simulator {
 public:

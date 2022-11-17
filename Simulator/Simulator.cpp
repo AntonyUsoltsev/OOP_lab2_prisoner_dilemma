@@ -106,7 +106,7 @@ void Simulator::detailed(const Matrix &matrix, History hist, Result result) {
 
         result.incr_res(round, hist, matrix);
         std::cout << " Current score: ";
-        result.print_cur_res(); //TODO curres
+        result.print_cur_res();
         round++;
         std::cin >> insert;
     }
