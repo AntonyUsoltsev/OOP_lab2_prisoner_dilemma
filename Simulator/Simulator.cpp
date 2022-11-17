@@ -1,5 +1,55 @@
 #include "Simulator.h"
 
+Simulator::Simulator(const Matrix &matrix, const History &hist, const Result &result) {
+    std::cout << "Insert mode of game [detailed|fast|tournament] or [help] to call help\n";
+    std::cin >> mode;
+
+    if (mode == "help") {
+        Help::call_mode_help();
+        std::cout << "Insert mode of game[detailed|fast|tournament]\n";
+        std::cin >> mode;
+    }
+
+    if (mode == "detailed") {
+        input_str_nums();
+
+        detailed(matrix, hist, result);
+
+    } else if (mode == "fast") {
+        input_str_nums();
+        std::cout << "Insert count of rounds\n";
+        std::cin >> rounds;
+        if (rounds < 0)
+            throw (std::invalid_argument("Count of numbers is incorrect"));
+
+        fast(matrix, hist, result);
+
+    } else if (mode == "tournament") {
+        std::cout << "Insert count of strategies\n";
+        std::cin >> str_count;
+        if (str_count < 3)
+            throw (std::invalid_argument("Count of strategies is incorrect"));
+        std::cout << "Insert " << str_count << " numbers of strategies (from 1 to " << STR_CNT << ")\n";
+
+        for (int i = 0; i < str_count; i++) {
+            int num;
+            std::cin >> num;
+            if (num < 1 || num > STR_CNT)
+                throw (std::invalid_argument("Strategy doesn't exist"));
+            str_nums.push_back(num);
+        }
+
+        std::cout << "Insert count of rounds\n";
+        std::cin >> rounds;
+        if (rounds <= 0)
+            throw (std::invalid_argument("Count of numbers is incorrect"));
+
+        tournament(matrix, hist, result);
+
+    } else
+        throw (std::invalid_argument("Mode is incorrect"));
+}
+
 void Simulator::input_str_nums() {
     std::cout << "Insert three numbers of strategies (from 1 to " << STR_CNT << ") or [help] to call help\n";
     str_count = STR_PLAY;
@@ -18,55 +68,6 @@ void Simulator::input_str_nums() {
     for (int c: str_nums)
         if (c < 1 || c > STR_CNT)
             throw (std::invalid_argument("Strategy doesn't exist"));
-}
-
-Simulator::Simulator(const Matrix &matrix, const History& hist, const Result& result) {
-    std::cout << "Insert mode of game [detailed|fast|tournament] or [help] to call help\n";
-    std::cin >> mode;
-    //Help help;
-    if (mode == "help") {
-        Help::call_mode_help();
-        std::cout << "Insert mode of game[detailed|fast|tournament]\n";
-        std::cin >> mode;
-    }
-
-    if (mode == "detailed") {
-        this->input_str_nums();
-        this->detailed(matrix, hist, result);
-
-    } else if (mode == "fast") {
-        this->input_str_nums();
-
-        std::cout << "Insert count of rounds\n";
-        std::cin >> rounds;
-        if (rounds < 0)
-            throw (std::invalid_argument("Count of numbers is incorrect"));
-
-        fast(matrix, hist, result);
-
-    } else if (mode == "tournament") {
-        std::cout << "Insert count of strategies\n";
-        std::cin >> str_count;
-        if (str_count < 3)
-            throw (std::invalid_argument("Count of strategies is incorrect"));
-        std::cout << "Insert numbers of strategies (from 1 to " << STR_CNT << ")\n";
-        for (int i = 0; i < str_count; i++) {
-            int num;
-            std::cin >> num;
-            if (num < 1 || num > STR_CNT)
-                throw (std::invalid_argument("Strategy doesn't exist"));
-            str_nums.push_back(num);
-        }
-
-        std::cout << "Insert count of rounds\n";
-        std::cin >> rounds;
-        if (rounds <= 0)
-            throw (std::invalid_argument("Count of numbers is incorrect"));
-
-        tournament(matrix, hist, result);
-
-    } else
-        throw (std::invalid_argument("Mode is incorrect"));
 }
 
 void Simulator::create_str() {
@@ -137,12 +138,15 @@ void Simulator::tournament(const Matrix &matrix, History hist, Result result) {
                 hist.resize_history(rounds);
                 std::cout << "\nStrategies: " << str_nums[i] << " " << str_nums[j] << " " << str_nums[k] << '\n';
                 for (int round = 0; round < rounds; round++) {
+
                     int step = str_list[i]->decision(round, 0, hist);
                     hist.set_value(step, round);
                     std::cout << static_cast<char>(step + 'c') << " ";
+
                     step = str_list[j]->decision(round, 1, hist);
                     hist.set_value(step, round);
                     std::cout << static_cast<char>(step + 'c') << " ";
+
                     step = str_list[k]->decision(round, 2, hist);
                     hist.set_value(step, round);
                     std::cout << static_cast<char>(step + 'c') << "\n";
@@ -157,7 +161,7 @@ void Simulator::tournament(const Matrix &matrix, History hist, Result result) {
         }
     }
     std::cout << "\n";
-    result.print_abs_win(abs_win, str_nums);
+    Result::print_abs_win(abs_win, str_nums);
     make_null();
 }
 

@@ -26,7 +26,7 @@ public:
 
     void incr_res(int, History, Matrix matrix);
 
-    static void print_abs_win( std::vector<int>,const std::vector<int>& );
+    static void print_abs_win(std::vector<int>, const std::vector<int>& );
 };
 
 #endif //LAB2_PRISONER_DILEMMA_RESULT_H
