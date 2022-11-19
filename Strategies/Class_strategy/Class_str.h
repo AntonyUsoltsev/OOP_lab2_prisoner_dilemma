@@ -1,7 +1,7 @@
 #ifndef LAB2_PRISONER_DILEMMA_CLASS_STR_H
 #define LAB2_PRISONER_DILEMMA_CLASS_STR_H
 
-#include "../../Histrory/History.h"
+#include "../../History/History.h"
 #include "../../Constants/Constants.h"
 
 class Strategies {

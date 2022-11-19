@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include "../Matrix/Matrix.h"
-#include "../Histrory/History.h"
+#include "../History/History.h"
 #include "../Constants/Constants.h"
 
 class Result {
@@ -14,19 +14,19 @@ public:
 
     Result() = default;
 
-    void create_res(Matrix matrix, const History &hist);
+    void create_res(Matrix, const History &);
 
     ~Result() = default;
 
-    void print_cur_res();
+    void print_cur_res(const std::string&);
 
-    void print_tot_res(int frst,int scnd,int thrd);
+    void print_tot_res(int, int, int);
 
     void clear_res();
 
-    void incr_res(int, History, Matrix matrix);
+    void incr_res(int, History, Matrix);
 
-    static void print_abs_win(std::vector<int>, const std::vector<int>& );
+    static void print_abs_win(std::vector<int>, const std::vector<int> &);
 };
 
 #endif //LAB2_PRISONER_DILEMMA_RESULT_H

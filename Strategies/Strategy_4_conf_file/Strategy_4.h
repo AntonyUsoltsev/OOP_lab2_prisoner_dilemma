@@ -28,6 +28,8 @@ public:
             fin >> inp;
         }
         fin.close();
+        if (moves.empty())
+            throw (std::invalid_argument("File is empty"));
     }
 
     int decision(int round, int pos, History &hist) override {

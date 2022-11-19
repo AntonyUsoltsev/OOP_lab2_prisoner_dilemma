@@ -9,7 +9,7 @@
 #include "Help.h"
 #include "../Constants/Constants.h"
 #include "../Factory/Factory.h"
-#include "../Histrory/History.h"
+#include "../History/History.h"
 #include "../Matrix/Matrix.h"
 #include "../Result/Result.h"
 #include "../Strategies/Class_strategy/Class_str.h"
@@ -19,6 +19,7 @@
 #include "../Strategies/Strategy_4_conf_file/Strategy_4.h"
 #include "../Strategies/Strategy_5_alternation/Strategy_5.h"
 #include "../Strategies/Strategy_6_rand/Strategy_6.h"
+#include "../Strategies/Strategy_7_meta/Strategy_7.h"
 
 class Simulator {
 public:
@@ -29,7 +30,7 @@ public:
     std::vector<Strategies *> str_list;
 
     Simulator(const Matrix &matrix, const History& hist, const Result& result);
-
+   // void input_game_mode(const Matrix &matrix, const History& hist, const Result& result);
     ~Simulator() = default;
 
     void create_str();
@@ -40,9 +41,9 @@ public:
 
     void tournament(const Matrix &matrix, History hist, Result result);
 
-    void input_str_nums();
+    void input_str_nums(int);
 
-    void str_moves(int round, History &hist);
+    void str_moves(int round, const std::vector<int>&, History &hist);
 
     void make_null();
 };
