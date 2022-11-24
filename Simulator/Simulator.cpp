@@ -21,7 +21,7 @@ Simulator::Simulator(const Matrix &matrix, const History &hist, const Result &re
         std::cout << "Insert count of rounds\n";
         std::cin >> rounds;
         if (rounds <= 0)
-            throw (std::invalid_argument("Count of numbers is incorrect"));
+            throw (std::invalid_argument("Count of rounds is incorrect"));
 
         fast(matrix, hist, result);
 
@@ -36,7 +36,7 @@ Simulator::Simulator(const Matrix &matrix, const History &hist, const Result &re
         std::cout << "Insert count of rounds\n";
         std::cin >> rounds;
         if (rounds <= 0)
-            throw (std::invalid_argument("Count of numbers is incorrect"));
+            throw (std::invalid_argument("Count of rounds is incorrect"));
 
         tournament(matrix, hist, result);
 

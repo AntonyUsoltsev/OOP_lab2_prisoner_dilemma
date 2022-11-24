@@ -30,7 +30,7 @@ public:
     std::vector<Strategies *> str_list;
 
     Simulator(const Matrix &matrix, const History& hist, const Result& result);
-   // void input_game_mode(const Matrix &matrix, const History& hist, const Result& result);
+
     ~Simulator() = default;
 
     void create_str();

@@ -1,50 +1,62 @@
-//#include <iostream>
-//#include "gtest/gtest.h"
-//#include "../Simulator/Simulator.h"
-//
-//TEST(Game,fast) {
-//    Matrix matrix;
-//    History hist;
-//    Result result;
-//    Simulator sim(matrix, hist, result);
-//}
-////
-//TEST(bigint_test_costructor, str_constructor) {
-//    EXPECT_EQ("0", (std::string) BigInt("0"));
-//    EXPECT_EQ("0", (std::string) BigInt("-0"));
-//    EXPECT_EQ("1234567899876543210", (std::string) BigInt("1234567899876543210"));
-//    EXPECT_EQ("123456789", (std::string) BigInt("000000000123456789"));
-//    EXPECT_EQ("-1239876545151515", (std::string) BigInt("-1239876545151515"));
-//}
-//
-//TEST(bigint_test_costructor, copy_constructor) {
-//    BigInt val1 = BigInt(123456789);
-//    const BigInt &val2 = val1;
-//    EXPECT_EQ("123456789", (std::string) val2);
-//}
-//
-//
-//TEST(bigint_test_operator, compare_test) {
-//    EXPECT_TRUE(BigInt("0") == BigInt("-0"));
-//    EXPECT_TRUE(BigInt("123456789987") == BigInt("123456789987"));
-//
-//    EXPECT_TRUE(BigInt("123456789987") != BigInt("984984295"));
-//    EXPECT_TRUE(BigInt("123456789987") != BigInt("-123456789987"));
-//
-//    EXPECT_TRUE(BigInt("147149498419419") > BigInt("5"));
-//    EXPECT_TRUE(BigInt("4294967296") > BigInt("-94984984984894"));
-//    EXPECT_TRUE(BigInt("-49848494") > BigInt("-49848496"));
-//
-//    EXPECT_TRUE(BigInt("1") < BigInt("429499849484"));
-//    EXPECT_TRUE(BigInt("-1949232149") < BigInt("135"));
-//    EXPECT_TRUE(BigInt("-1984984156") < BigInt("-1984984152"));
-//
-//    EXPECT_TRUE(BigInt("16516165") <= BigInt("16516165"));
-//    EXPECT_TRUE(BigInt("16516165") >= BigInt("16516165"));
-//}
-//
-//
-//GTEST_API_ int main(int argc, char **argv) {
-//    testing::InitGoogleTest(&argc, argv);
-//    return RUN_ALL_TESTS();
-//}
+#include <iostream>
+#include "gtest/gtest.h"
+#include "../Simulator/Simulator.h"
+
+TEST(Factory, test_factory) {
+    History hist;
+    std::vector<Strategies *> str_list;
+    Strategies_Factory<int, Strategies> str_fact;
+    str_fact.add<Strategy_1>(1);
+    str_fact.add<Strategy_2>(2);
+    str_fact.add<Strategy_3>(3);
+    str_fact.add<Strategy_4>(4);
+    str_fact.add<Strategy_5>(5);
+    str_fact.add<Strategy_6>(6);
+    str_fact.add<Strategy_7>(7);
+
+    for (int i = 1; i <= 7; i++)
+        str_list.push_back(str_fact.get(i)());
+
+    EXPECT_EQ(C, str_list[0]->decision(0, 1, hist));
+    EXPECT_EQ(D, str_list[1]->decision(0, 1, hist));
+    EXPECT_EQ(C, str_list[2]->decision(0, 1, hist));
+    EXPECT_EQ(C, str_list[3]->decision(0, 1, hist));
+    EXPECT_EQ(C, str_list[4]->decision(0, 1, hist));
+    //EXPECT_EQ( , str_list[5]->decision(0,1,hist));
+    EXPECT_EQ(D, str_list[6]->decision(0, 1, hist));
+
+}
+
+TEST (Matrix, read_matrix) {
+    Matrix matr;
+
+    std::vector<int> tmp = {7, 7, 7};
+    EXPECT_EQ(tmp, matr.score_matrix[4*C+2*C+C]);
+
+    tmp = {3, 3, 9};
+    EXPECT_EQ(tmp, matr.score_matrix[4*C+2*C+D]);
+
+    tmp = {3, 9, 3};
+    EXPECT_EQ(tmp, matr.score_matrix[4*C+2*D+C]);
+
+    tmp = {9, 3, 3};
+    EXPECT_EQ(tmp, matr.score_matrix[4*D+2*C+C]);
+
+    tmp = {0, 5, 5};
+    EXPECT_EQ(tmp, matr.score_matrix[4*C+2*D+D]);
+
+    tmp = {5, 0, 5};
+    EXPECT_EQ(tmp, matr.score_matrix[4*D+2*C+D]);
+
+    tmp = {5, 5, 0};
+    EXPECT_EQ(tmp, matr.score_matrix[4*D+2*D+C]);
+
+    tmp = {1, 1, 1};
+    EXPECT_EQ(tmp, matr.score_matrix[4*D+2*D+D]);
+}
+
+
+GTEST_API_ int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

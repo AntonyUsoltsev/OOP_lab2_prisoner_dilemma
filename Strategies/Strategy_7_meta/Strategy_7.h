@@ -22,7 +22,7 @@ public:
     std::vector<int> str_nums;
     int str_count;
 
-    void set_moves() {
+    void read_file() {
         std::ifstream fin("../Strategies/Strategy_7_meta/config_str_7.txt");
         if (!fin.is_open())
             throw (std::invalid_argument("File didn't open"));
@@ -30,16 +30,17 @@ public:
         fin >> inp;
         str_count = inp;
 
-        if(fin.eof())
+        if (fin.eof())
             throw (std::invalid_argument("File is empty"));
 
         if (str_count < 0 || str_count > STR_CNT)
             throw (std::invalid_argument("Count of strategies is incorrect"));
+
         int count = 0;
 
         while (!fin.eof()) {
             fin >> inp;
-            if (str_count < 0 || str_count > STR_CNT-1)
+            if (str_count < 0 || str_count > STR_CNT - 1)
                 throw (std::invalid_argument("Number of strategy is incorrect"));
             str_nums.push_back(inp);
             count++;
@@ -48,16 +49,12 @@ public:
         }
         if (count < str_count)
             throw (std::invalid_argument("Too few args"));
-//
-//        if (str_nums.empty())
-//            throw (std::invalid_argument("No match "));
         fin.close();
-
     }
 
     int decision(int round, int pos, History &hist) override {
         if (round == 0) {
-            set_moves();
+            read_file();
             Strategies_Factory<int, Strategies> str_fact;
             str_fact.add<Strategy_1>(1);
             str_fact.add<Strategy_2>(2);
@@ -70,11 +67,11 @@ public:
                 str_list.push_back(str_fact.get(i)());
         }
 
-        int step =0;
+        int step = 0;
         for (int i = 0; i < str_count; i++) {
             step += str_list[i]->decision(round, i, hist);
         }
-        return (step%2);
+        return (step % 2);
     }
 };
 

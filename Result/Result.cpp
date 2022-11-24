@@ -21,7 +21,6 @@ void Result::print_cur_res(const std::string &str) {
 }
 
 void Result::print_tot_res(int frst, int scnd, int thrd) {
-    //  std::cout << "Total score: ";
     print_cur_res("Total score: ");
     int ind = distance(res.begin(), std::max_element(res.begin(), res.end()));
     int winner;
